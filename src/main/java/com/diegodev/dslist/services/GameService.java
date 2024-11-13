@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.diegodev.dslist.dto.GameDTO;
 import com.diegodev.dslist.dto.GameMinDTO;
 import com.diegodev.dslist.entities.Game;
+import com.diegodev.dslist.projections.GameMinProjection;
 import com.diegodev.dslist.repositories.GameRepository;
 
 @Service
@@ -37,4 +38,12 @@ public class GameService {
 		return dto;
 	}
 
+	@org.springframework.transaction.annotation.Transactional(readOnly = true)
+	public List<GameMinDTO> findByList(Long listId){
+		
+		List<GameMinProjection> list = gameRepository.searchByList(listId);
+		List<GameMinDTO> dto = list.stream().map(x -> new GameMinDTO(x)).toList();
+		
+		return dto ;
+	}
 }
