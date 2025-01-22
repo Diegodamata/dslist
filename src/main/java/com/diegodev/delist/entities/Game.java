@@ -4,6 +4,8 @@ package com.diegodev.delist.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +31,9 @@ public class Game implements Serializable {
 
     @Column(columnDefinition = "TEXT")
     private String longDescription;
+
+    @OneToMany(mappedBy = "id.game")
+    private List<Belonging> games = new ArrayList<>();
 
     public Game(){
     }
@@ -115,6 +120,10 @@ public class Game implements Serializable {
 
     public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
+    }
+
+    public List<Belonging> getGames() {
+        return games;
     }
 
     @Override

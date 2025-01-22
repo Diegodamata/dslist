@@ -3,6 +3,8 @@ package com.diegodev.delist.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +16,9 @@ public class GameList implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "id.gameList")
+    private List<Belonging> lists = new ArrayList<>();
 
     public GameList(){
     }
@@ -37,6 +42,10 @@ public class GameList implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Belonging> getLists() {
+        return lists;
     }
 
     @Override
