@@ -3,6 +3,7 @@ package com.diegodev.delist.services;
 import com.diegodev.delist.dto.GameDto;
 import com.diegodev.delist.dto.GameMinDto;
 import com.diegodev.delist.entities.Game;
+import com.diegodev.delist.projections.GameMinProjection;
 import com.diegodev.delist.repositories.GameRepository;
 import com.diegodev.delist.services.exceptions.GameExceptionNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,17 @@ public class GameService {
                 x.getShortDescription(),
                 x.getLongDescription()))
                 .orElseThrow(() -> new GameExceptionNotFound("Game não encontrado com o id: " + id + "!"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameMinDto> findByList(final Long id){
+        return gameRepository.searchByList(id)
+                .stream().map(gameMinProjection -> new GameMinDto(
+                        gameMinProjection.getId(),
+                        gameMinProjection.getTitle(),
+                        gameMinProjection.getYear(),
+                        gameMinProjection.getImgUrl(),
+                        gameMinProjection.getShortDescription()
+                        )).toList();
     }
 }

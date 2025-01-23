@@ -26,14 +26,4 @@ public class GameListService {
                         game.getId(),
                         game.getName())).toList();
     }
-
-    @Transactional(readOnly = true)
-    public GameListDto findById(final Long id){
-        var game = gameListRepository.findById(id);
-
-        return game.map(x -> new GameListDto(
-                x.getId(),
-                x.getName()))
-                .orElseThrow(() -> new GameExceptionNotFound("List não encontrada com o id: " + id + "!"));
-    }
 }
